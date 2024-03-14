@@ -1,0 +1,104 @@
+spring:
+  messages:
+    basename: errors, messages
+    encoding: UTF-8
+  config:
+    import:
+      - optional:file:.env[.properties]
+  datasource:
+    url: ${DB_URL}
+    username: ${USER_NAME}
+    password: ${USER_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: ${DB_URL}
+      username: ${USER_NAME}
+      password: ${USER_PASSWORD}
+      maximum-pool-size: 50
+      minimum-idle: 10
+      connection-timeout: 5000
+      connection-init-sql: SELECT 1
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: true
+      leak-detection-threshold: 30000
+      connection-test-query: SELECT 1
+      isolate-internal-queries: false
+      validation-timeout: 5000
+      validation-query: SELECT 1
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_ID}
+    password: ${MAIL_SECRET}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    auth-code-expiration-millis: 600000  # 10분
+  jwt:
+    secret: ${JWT_KEY}
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+
+
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_BUCKET}
+    region:
+      static: ${AWS_REGION}
+    stack:
+      auto: false
+    credentials:
+      access-key: ${AWS_ACCESS}
+      secret-key: ${AWS_SECRET}
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+    com:
+      sixcube:
+        recletter: debug
+    org.springframework.security: DEBUG
+
+openvidu:
+  url: ${OPENVIDU_URL}
+  secret: ${OPENVIDU_SECRET}
+
+social:
+  google:
+    id: ${GOOGLE_CLIENT_ID}
+    secret: ${GOOGLE_CLIENT_SECRET}
+    redirect: ${GOOGLE_REDIRECT_URL}
+
+server:
+  port: 8081
